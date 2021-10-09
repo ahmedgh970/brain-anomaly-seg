@@ -1,4 +1,4 @@
-You can download the preprocessed datasets from the drive link in readme file.
+You can download the preprocessed datasets from the drive link in the README.md file.
 
 ---------------------------------------------------------------------------
 Dataset       | Structures                               | Use    | Samples
