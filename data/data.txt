@@ -1,0 +1,17 @@
+You can download the preprocessed datasets from the drive link in readme file.
+
+---------------------------------------------------------------------------
+Dataset       | Structures                               | Use    | Samples
+---------------------------------------------------------------------------
+OASIS-3  [1]  | Healthy                                  | Train  | 16896
+BraTS-21 [2]  | Anomalous: with glioblastoma             | Test   | 4805
+MSLUB    [3]  | Anomalous: with multi sclerosis lesions  | Test   | 3078
+OASIS-3  [1]  | Healthy                                  | Test   | 4805
+---------------------------------------------------------------------------
+
+
+[1] Pamela J LaMontagne, Tammie LS Benzinger, John C Morris, Sarah Keefe, Russ Hornbeck, Chengjie Xiong, Elizabeth Grant, Jason Hassenstab, Krista Moulder, Andrei Vlassenko, et al. Oasis-3: longitudinal neuroimaging, clinical, and cognitive dataset for normal aging and alzheimer disease. MedRxiv, 2019.
+
+[2] Spyridon Bakas, Mauricio Reyes, Andras Jakab, Stefan Bauer, Markus Remper, Alessandro Crimi, Russell Takeshi Shinohara, Christoph Berger, Sung Min Ha, Martin Rozycki, et al. Identifying the best machine learning algorithms for brain tumor segmentation, progression assessment, and overall survival prediction in the brats challenge. arXiv preprint arXiv:1811.02629, 2018.
+
+[3] Ziga Lesjak, Alfiia Galimzianova, Ales Koren, Matej Lukin, Franjo Pernus, Bostjan Likar, and Ziga Spiclin. A novel public mr image dataset of multiple sclerosis patients with lesion segmentations based on multi-rater consensus. Neuroinformatics, 16(1):51-63, 2018.
