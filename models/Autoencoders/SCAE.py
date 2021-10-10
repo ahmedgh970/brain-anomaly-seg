@@ -45,7 +45,7 @@ def SCAE():
     x = layers.Conv2D(128, 5, activation=layers.LeakyReLU(), strides=2, padding="same")(x)   
     encoded = layers.Conv2D(16 , 1, activation=layers.LeakyReLU(), strides=1, padding="same")(x)
    
-    #-- BOTTELNECK SIZE : 4096 = (16, 16, 16) ==> choice (1024 = (8, 8, 16))
+    #-- BOTTELNECK SIZE : (16, 16, 16)
 
     x = layers.Conv2D(128, 1, strides=1, activation=layers.LeakyReLU(), padding="same")(encoded)    
     x = layers.Conv2DTranspose(128, 5, strides=2, activation=layers.LeakyReLU(), padding="same")(x) 
