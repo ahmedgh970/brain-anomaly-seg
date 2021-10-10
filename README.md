@@ -50,7 +50,9 @@ To install those, run `pip3 install -r requirements.txt`
   │   └── Transformer based models/
   │       ├── B_TAE.py
   │       └── ...
-  │  
+  │
+  ├── saved/  - saving folder
+  │
   └── scripts/ - small utility scripts
       ├── utils.py
       └── ...    
