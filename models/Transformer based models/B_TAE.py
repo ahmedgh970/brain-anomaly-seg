@@ -1,40 +1,4 @@
-# Imports
-
-import json
-import os
-
-import cv2
-from skimage import filters
-from einops import rearrange
-import statistics
-import seaborn as sns; sns.set_theme()
-
-import random
-import traceback
-import nibabel as nib
-import scipy 
-
-import numpy as np
-from numpy import save
-import matplotlib.pyplot as plt
-import time
-from datetime import datetime
-
-import tensorflow as tf
-import tensorflow_addons as tfa
-
-from tensorflow.keras import layers
-from plot_keras_history import plot_history
-
-from sklearn.model_selection import ParameterGrid
-from sklearn import metrics
-
-from scripts.evalresults import *
-from scripts.utils import *
-
-
-
-"""# Implement patch creation as a layer"""
+#-- Implement patch creation as a layer
 
 class Patches(layers.Layer):
 
@@ -63,7 +27,7 @@ class Patches(layers.Layer):
         return patches
 
 
-"""# Implement the patch encoding layer"""
+#-- Implement the patch encoding layer
 
 class PatchEncoder(layers.Layer):
 
@@ -91,7 +55,7 @@ class PatchEncoder(layers.Layer):
         return encoded
 
 
-"""# Implement image reconstruction from patches as a layer"""
+#-- Implement image reconstruction from patches as a layer
 
 class Images(layers.Layer):
   
@@ -118,14 +82,14 @@ class Images(layers.Layer):
         return image
 
 
-"""# Dense Layer """    
+#-- Dense Layer    
 
 class TruncatedDense(layers.Dense):
     def __init__(self, units, use_bias=True, initializer = tf.keras.initializers.TruncatedNormal(mean=0., stddev=.02)):
         super().__init__(units, use_bias=use_bias, kernel_initializer=initializer)
 
         
-"""# Mlp Head """
+#-- Mlp Head
 
 class Mlp(layers.Layer):
 
@@ -157,7 +121,7 @@ class Mlp(layers.Layer):
         return x
 
 
-# Model implementation : Vision Autoencoder Transformer
+#-- Model implementation : Basic Vision Transformer Autoencoder 
 
 def transformer_autoencoder(encoded_patches):
 
@@ -209,7 +173,7 @@ def transformer_autoencoder(encoded_patches):
     return target
 
 
-# Build the TAE Model
+#-- Build the B_TAE model
 
 def TAE():
 
@@ -226,7 +190,7 @@ def TAE():
     return model
  
  
-# Configure the hyperparameters
+#-- Configure the hyperparameters
 
 model_name = 'BASIC Transformer'
 numEpochs = 50
@@ -237,6 +201,8 @@ num_channels = 1
 batch_size = 4
 filters = 96
 
+
+#-- Transformer parameters variation
 
 param_grid = {
               'transformer_layers': [8],
@@ -249,7 +215,7 @@ PARAMS = ParameterGrid(param_grid)
 list_PARAMS = list(PARAMS)
 
 
-# Configure training and testing on MOOD Datasets 
+#-- Configure training and testing Datasets 
 
 saved_dir = './saved/'
 data_dir  = './data/OASIS/'
@@ -263,7 +229,6 @@ label_path = './data/BraTS/s0/BraTS_GT.npy'
 
 '''
 #-- If using MSLUB as test-set
-
 test_path = './data/MSLUB/MSLUB_Flair.npy'
 brainmask_path = './data/MSLUB/MSLUB_Brainmask.npy'
 x_prior_path = './data/MSLUB/MSLUB_prior_57.npy'
@@ -284,12 +249,13 @@ val_gen = data_generator(train_paths[-nb_val_files:], batch_size)
 validation_steps = (256 / batch_size) * nb_val_files
 
 
-# Train, Evaluate and Test
+#-- Train, Test and Evaluate
 
 for param in list_PARAMS:
+   try:
    
+        #-- Checkpoints dir
 
-        # Checkpoints dir
         date = datetime. now(). strftime("%Y_%m_%d-%I:%M:%S_%p")
         ckpts_dir = os.path.join(saved_dir, f'Ckpts_{date}')
         os.makedirs(ckpts_dir)
@@ -304,7 +270,8 @@ for param in list_PARAMS:
         residual_BP_path = os.path.join(ckpts_dir, 'Residuals_BP.npy')
       
 
-        # Configure the parameters
+        #-- Configure the parameters
+
         transformer_layers = param['transformer_layers']
         patch_size = param['patch_size']
         num_heads = param['num_heads']
@@ -312,7 +279,9 @@ for param in list_PARAMS:
         num_patches = input_resolution ** 2
         embed_shape = (num_patches, filters)
 
-        # Configure the training
+
+        #-- Configure the training
+
         opt = tf.keras.optimizers.Adam(learning_rate = learning_rate)
             
         calbks = tf.keras.callbacks.ModelCheckpoint(filepath=ckpts_path, monitor='val_loss', save_best_only=True, save_weights_only=True, verbose=2)
@@ -322,12 +291,15 @@ for param in list_PARAMS:
         model.summary()        
         model.compile(optimizer=opt, loss='mae', metrics=['mse', SSIMLoss, MS_SSIMLoss])
 
-        # Print & Write model Parameters
+
+        #-- Print & Write model Parameters
+
         parameters = (f'\nSelected model "{model_name}" with :\n - {num_heads}: Heads,\n - {patch_size}: Patch size,\n - {transformer_layers}: Transformer Layer,\n - ({embed_shape[0]}, {embed_shape[1]}): Embedding Shape,\n - {batch_size}: Batche(s)\n - {numEpochs}: Epochs\n')
         print(parameters)
      
         
-        # TRAIN 
+        #-- Train 
+
         print('\nTrain =>\n')
         history = model.fit(x = data_gen,
                             steps_per_epoch = training_steps,
@@ -339,13 +311,15 @@ for param in list_PARAMS:
                             )
         
                         
-        # Get training and test loss histories                   
+        #-- Get training and test loss histories 
+
         plot_history(history, path=fig_path)
         plt.close()
         time.sleep(2)
         
                 
-        # Test       
+        #-- Test 
+
         print('\nTest ===>\n')
         my_test = np.load(test_path)
         brainmask = np.load(brainmask_path)
@@ -361,6 +335,7 @@ for param in list_PARAMS:
         
                 
         #-- Predict
+
         print('\nPredict =====>\n')
         predicted = model.predict(x=my_test, verbose=1, steps=len_testset)
         np.save(predicted_path, predicted)
@@ -368,6 +343,7 @@ for param in list_PARAMS:
         
         
         #-- Calculate, Post-process and Save Residuals
+
         print('\nCalculate, Post-process and Save Residuals =====>\n')     
         residual_BP = calculate_residual_BP(my_test, predicted, brainmask)  #-- You can use either brainmask or x_prior
         np.save(residual_BP_path, residual_BP)
@@ -377,6 +353,7 @@ for param in list_PARAMS:
         
 
         #-- Evaluation
+
         print('\nEvaluate =========>\n')        
         [AUROC, AUPRC, AVG_DICE, MAD, STD], DICE = eval_residuals(my_labels, residual)     
         results = (f'\nResults after median_filter :\n - AUROC = {AUROC}\n - AUPRC = {AUPRC}\n - AVG_DICE = {AVG_DICE}\n - MEDIAN_ABSOLUTE_DEVIATION = {MAD}\n - STANDARD_DEVIATION = {STD}')
@@ -392,7 +369,9 @@ for param in list_PARAMS:
         plt.savefig(dice_plot_path)
         time.sleep(2)
 
+
         #-- Save
+
         print('\nSave Results and Parameters =============>\n')
         f = open(results_path, "w")
         f.write(results)       
@@ -406,5 +385,10 @@ for param in list_PARAMS:
         
          
         #-- End
+
         print('\nEnd !\n')
-        
+
+   except:
+        print('Error encountered !')
+        tf.keras.backend.clear_session()
+        continue
