@@ -1,50 +1,4 @@
-# Imports
-
-import json
-import os
-
-import cv2
-from skimage import filters
-from einops import rearrange
-import statistics
-import seaborn as sns; sns.set_theme()
-
-import random
-import traceback
-import nibabel as nib
-import scipy 
-
-import numpy as np
-from numpy import save
-import matplotlib.pyplot as plt
-import time
-from datetime import datetime
-
-import tensorflow as tf
-import tensorflow_addons as tfa
-
-from tensorflow.keras import layers
-from plot_keras_history import plot_history
-
-from sklearn.model_selection import ParameterGrid
-from sklearn import metrics
-
-from scripts.evalresults import *
-from scripts.utils import *
-
-
-# Configure the hyperparameters
-
-model_name = 'Variational Autoencoder'
-numEpochs = 50
-learning_rate = 0.00001
-rate = 0.  
-image_size = 256
-num_channels = 1
-batch_size = 1
-latent_dim = 512
-intermediate_dim = 2048
-
+#-- Model implementation : Variational Autoencoder
 
 class Sampling(layers.Layer):
     def call(self, inputs):
@@ -85,8 +39,20 @@ def VAE():
   return model
 
 
+#-- Configure the hyperparameters
 
-# Configure training and testing on MOOD Datasets 
+model_name = 'Variational Autoencoder'
+numEpochs = 50
+learning_rate = 0.00001
+rate = 0.  
+image_size = 256
+num_channels = 1
+batch_size = 1
+latent_dim = 512
+intermediate_dim = 2048
+
+
+#-- Configure training and testing Datasets 
 
 saved_dir = './saved/'
 data_dir  = './data/OASIS/'
@@ -100,7 +66,6 @@ label_path = './data/BraTS/s0/BraTS_GT.npy'
 
 '''
 #-- If using MSLUB as test-set
-
 test_path = './data/MSLUB/MSLUB_Flair.npy'
 brainmask_path = './data/MSLUB/MSLUB_Brainmask.npy'
 x_prior_path = './data/MSLUB/MSLUB_prior_57.npy'    
@@ -120,7 +85,9 @@ nb_val_files = 5
 val_gen = data_generator(train_paths[-nb_val_files:], batch_size)
 validation_steps = (256 / batch_size) * nb_val_files
 
-# Checkpoints dir
+
+#-- Checkpoints dir
+
 date = datetime. now(). strftime("%Y_%m_%d-%I:%M:%S_%p")
 ckpts_dir = os.path.join(saved_dir, f'Ckpts_{date}')
 os.makedirs(ckpts_dir)
@@ -135,7 +102,8 @@ residual_path = os.path.join(ckpts_dir, 'Residuals.npy')
 residual_BP_path = os.path.join(ckpts_dir, 'Residuals_BP.npy')
 
       
-# Configure the training
+#-- Configure the training
+
 opt = tf.keras.optimizers.Adam(learning_rate = learning_rate)
            
 calbks = tf.keras.callbacks.ModelCheckpoint(filepath=ckpts_path, monitor='loss', save_best_only=True, save_weights_only=True, verbose=2)
@@ -146,12 +114,14 @@ model.summary()
 model.compile(optimizer=opt, loss='mae', metrics=['mse', SSIMLoss, MS_SSIMLoss])
 
 
-# Print & Write model Parameters
+#-- Print & Write model Parameters
+
 parameters = (f'\nSelected model "{model_name}" with :\n - {batch_size}: Batche(s)\n - {numEpochs}: Epochs\n - {intermediate_dim}: Intermediate dim\n - {latent_dim}: Bottelneck size\n')
 print(parameters)
 
   
-# TRAIN 
+#-- TRAIN 
+
 print('\nTrain =>\n')
 history = model.fit(x = data_gen,
                     steps_per_epoch = training_steps,
@@ -163,13 +133,15 @@ history = model.fit(x = data_gen,
                     )
 
                           
-# Get training and test loss histories                   
+#-- Get training and test loss histories 
+
 plot_history(history, path=fig_path)
 plt.close()
 time.sleep(2)
 
 
-# Test       
+#-- Test
+
 print('\nTest ===>\n')
 my_test = np.load(test_path)
 brainmask = np.load(brainmask_path)
@@ -185,6 +157,7 @@ print(score_out)
 
 
 #-- Predict
+
 print('\nPredict =====>\n')
 predicted = model.predict(x=my_test, verbose=1, steps=len_testset)
 np.save(predicted_path, predicted)
@@ -192,6 +165,7 @@ time.sleep(4)
 
 
 #-- Calculate, Post-process and Save Residuals
+
 print('\nCalculate, Post-process and Save Residuals =====>\n')     
 residual_BP = calculate_residual_BP(my_test, predicted, brainmask)  #-- You can use either brainmask or x_prior
 np.save(residual_BP_path, residual_BP)
@@ -201,6 +175,7 @@ np.save(residual_path, residual)
         
 
 #-- Evaluation
+
 print('\nEvaluate =========>\n')        
 [AUROC, AUPRC, AVG_DICE, MAD, STD], DICE = eval_residuals(my_labels, residual)     
 results = (f'\nResults after median_filter :\n - AUROC = {AUROC}\n - AUPRC = {AUPRC}\n - AVG_DICE = {AVG_DICE}\n - MEDIAN_ABSOLUTE_DEVIATION = {MAD}\n - STANDARD_DEVIATION = {STD}')
@@ -217,6 +192,7 @@ time.sleep(2)
 
 
 #-- Save
+
 print('\nSave Results and Parameters =============>\n')
 f = open(results_path, "w")
 f.write(results)       
@@ -229,4 +205,5 @@ f.close()
 
       
 #-- End
+
 print('\nEnd !\n')
