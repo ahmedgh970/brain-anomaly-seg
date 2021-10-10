@@ -33,7 +33,7 @@ from scripts.evalresults import *
 from scripts.utils import *
 
 
-"""# Model implementation : Spatial Convolutional Autoencoder """
+"""# Model implementation : Dense Convolutional Autoencoder """
 
 def DCAE():
   
@@ -48,7 +48,7 @@ def DCAE():
     x = layers.Flatten()(x)
     encoded = layers.Dense(intermediate_dim, activation=layers.LeakyReLU())(x)
 
-    #-- BOTTELNECK SIZE : 512 = 4096/8   ==> choice (128 = 1024/8)
+    #-- BOTTELNECK SIZE : 512
     
     x = layers.Dense(16 * 16 * 16, activation=layers.LeakyReLU())(encoded)
     x = layers.Reshape((16, 16, 16))(x)
