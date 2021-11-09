@@ -65,12 +65,12 @@ def calculate_residual(x, x_rec, x_prior):
     #x_diff = np.multiply(np.squeeze(x_prior), np.squeeze(np.absolute(x - x_rec)))
     
     x_diff = apply_3d_median_filter(x_diff)        
-    residual = squash_intensities(x_diff)
+    mask = squash_intensities(x_diff)
 
-    return residual
+    return mask
 
         
-def calculate_residual_BP(x, x_rec, brainmask):
+def calculate_residual_BP(x, x_rec, brainmask):  # Before Post-processing
     
     x_diff = np.multiply(np.squeeze(brainmask), np.squeeze(x - x_rec))
     x_diff[x_diff < 0] = 0
