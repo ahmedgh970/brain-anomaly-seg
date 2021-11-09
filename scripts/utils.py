@@ -58,26 +58,27 @@ def list_of_paths(data_dir):
 def calculate_residual(x, x_rec, x_prior):
     # x_prior threshold for BraTS : 0.52, for MSLUB : 0.57
     # you can use either x_prior or brainmask
+    # r is referring to the residual 
+
+    r = np.multiply(np.squeeze(x_prior), np.squeeze(x - x_rec))
+    r[r < 0] = 0
     
-    x_diff = np.multiply(np.squeeze(x_prior), np.squeeze(x - x_rec))
-    x_diff[x_diff < 0] = 0
+    #r = np.multiply(np.squeeze(x_prior), np.squeeze(np.absolute(x - x_rec)))
     
-    #x_diff = np.multiply(np.squeeze(x_prior), np.squeeze(np.absolute(x - x_rec)))
-    
-    x_diff = apply_3d_median_filter(x_diff)        
-    mask = squash_intensities(x_diff)
+    r = apply_3d_median_filter(r)        
+    mask = squash_intensities(r)
 
     return mask
 
         
 def calculate_residual_BP(x, x_rec, brainmask):  # Before Post-processing
     
-    x_diff = np.multiply(np.squeeze(brainmask), np.squeeze(x - x_rec))
-    x_diff[x_diff < 0] = 0
+    r = np.multiply(np.squeeze(brainmask), np.squeeze(x - x_rec))
+    r[r < 0] = 0
     
-    #x_diff = np.multiply(np.squeeze(brainmask), np.squeeze(np.absolute(x - x_rec)))
+    #r = np.multiply(np.squeeze(brainmask), np.squeeze(np.absolute(x - x_rec)))
 
-    return x_diff
+    return r
 
 
 def apply_3d_median_filter(volume, kernelsize=5):
@@ -99,5 +100,3 @@ def squash_intensities(img):
     offset = 0.5
     return 2.0 * ((1.0 / (1.0 + np.exp(-k * img))) - offset)
     
-    
-
