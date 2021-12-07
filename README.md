@@ -5,8 +5,8 @@ If you use any of our code, please cite:
 ```
 @article{ahghorbe2021,
   title = {Transformers for Unsupervised Anomaly Segmentation in Neuroimaging},
-  author = {Ghorbel, Ahmed and Hamidouche, Wassim and Aldahdooh, Ahmed and Albarqouni, Shadi},
-  url = {http://arxiv.org},
+  author = {Ghorbel, Ahmed and Aldahdooh, Ahmed and Hamidouche, Wassim and Albarqouni, Shadi},
+  booktitle={Medical Imaging with Deep Learning},
   year = {2022}
 }
 ```
