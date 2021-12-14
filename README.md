@@ -1,6 +1,6 @@
-# Transformers for Unsupervised Anomaly Segmentation in Neuroimaging
+# Transformers for Unsupervised Anomaly Segmentation in Brain MR Images
 
-This repository contains the code for our paper on [Transformers for Unsupervised Anomaly Segmentation in Neuroimaging](https://www.sciencedirect.com). 
+This repository contains the code for our paper on [Transformers for Unsupervised Anomaly Segmentation in Brain MR Images](https://www.sciencedirect.com). 
 If you use any of our code, please cite:
 ```
 @article{ahghorbe2021,
@@ -11,7 +11,7 @@ If you use any of our code, please cite:
 }
 ```
 
-* [Transformers for Unsupervised Anomaly Segmentation in Neuroimaging](#transformers-for-unsupervised-anomaly-segmentation-in-neuroimaging)
+* [Transformers for Unsupervised Anomaly Segmentation in Brain MR Images](#transformers-for-unsupervised-anomaly-segmentation-in-brain-mr-images)
   * [Requirements](#requirements)
   * [Folder Structure](#folder-structure)
   * [Usage](#usage)
