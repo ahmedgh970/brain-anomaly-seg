@@ -1,6 +1,6 @@
 # Transformers for Unsupervised Anomaly Segmentation in Brain MR Images
 
-This repository contains the code for our paper on [Transformers for Unsupervised Anomaly Segmentation in Brain MR Images](https://www.sciencedirect.com). 
+This repository contains the code for our paper on [Transformers for Unsupervised Anomaly Segmentation in Brain MR Images](https://openreview.net/forum?id=B_3vXI3Tcz&referrer=%5BAuthor%20Console%5D(%2Fgroup%3Fid%3DMIDL.io%2F2022%2FConference%2FAuthors%23your-submissions)). 
 If you use any of our code, please cite:
 ```
 @article{ahghorbe2022,
