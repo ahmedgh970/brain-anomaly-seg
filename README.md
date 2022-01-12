@@ -25,7 +25,7 @@ If you use any of our code, please cite:
 
 
 ## Tags
-<code>Transformers</code>, <code>Autoencoders</code>, <code>TensorFlow</code>, <code>Keras</code>, <code>Anomaly Segmentation</code>, <code>Unsupervised</code>, <code>Brain MR Images</code>
+<code>Transformers</code>, <code>Autoencoders</code>, <code>TensorFlow</code>, <code>Keras</code>, <code>Anomaly Segmentation</code>, <code>Unsupervised</code>, <code>Brain MR Images</code>, <code>MIDL 2022 Conference</code>
 
 ## Requirements
 * Python >= 3.6
