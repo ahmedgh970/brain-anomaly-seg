@@ -3,7 +3,7 @@
 This repository contains the code for our paper on [Transformers for Unsupervised Anomaly Segmentation in Brain MR Images](https://www.sciencedirect.com). 
 If you use any of our code, please cite:
 ```
-@article{ahghorbe2021,
+@article{ahghorbe2022,
   title = {Transformer based Models for Unsupervised Anomaly Segmentation in Brain MR Images},
   author = {Ghorbel, Ahmed and Aldahdooh, Ahmed and Hamidouche, Wassim and Albarqouni, Shadi},
   booktitle={Medical Imaging with Deep Learning},
@@ -23,6 +23,9 @@ If you use any of our code, please cite:
     
 <!-- /code_chunk_output -->
 
+
+## Tags
+<code>Transformers</code>, <code>Autoencoders</code>, <code>TensorFlow</code>, <code>Keras</code>, <code>Anomaly Segmentation</code>, <code>Unsupervised<code>, <code>Brain MR Images<code>
 
 ## Requirements
 * Python >= 3.6
