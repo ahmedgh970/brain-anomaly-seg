@@ -28,7 +28,7 @@ If you use any of our code, please cite:
 <code>MIDL 2022 Conference</code>, <code>Transformers</code>, <code>Autoencoders</code>, <code>TensorFlow</code>, <code>Keras</code>, <code>Anomaly Segmentation</code>, <code>Unsupervised</code>, <code>Brain MR Images</code>
 
 ## Requirements
-* Python >= 3.6
+* <code>Python >= 3.6</code>
 
 All packages used in this repository are listed in [requirements.txt](https://github.com/ahmedgh970/Transformers_Unsupervised_Anomaly_Segmentation/requirements.txt).
 To install those, run `pip3 install -r requirements.txt`
