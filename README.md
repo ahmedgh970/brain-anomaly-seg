@@ -27,11 +27,15 @@ If you use any of our code, please cite:
 ## Tags
 <code>MIDL 2022 Conference</code>, <code>Transformers</code>, <code>Autoencoders</code>, <code>TensorFlow</code>, <code>Keras</code>, <code>Anomaly Segmentation</code>, <code>Unsupervised</code>, <code>Brain MR Images</code>
 
+
 ## Requirements
 * <code>Python >= 3.6</code>
 
 All packages used in this repository are listed in [requirements.txt](https://github.com/ahmedgh970/Transformers_Unsupervised_Anomaly_Segmentation/requirements.txt).
-To install those, run `pip3 install -r requirements.txt`
+To install those, run:
+```
+pip3 install -r requirements.txt
+```
 
 
 ## Folder Structure
@@ -65,8 +69,10 @@ To install those, run `pip3 install -r requirements.txt`
 ## Usage
 All the preprocessed datasets that we utilized are available on this drive link: https://drive.google.com/file/d/11Bj7ATQtxLt7PyL3fqyyeXqNNrRqgS9K/view?usp=sharing
 
+
 ### CLI Usage
 Every model can be trained and tested individually using the scripts which are provided in the `models/*` folders.
+
 
 ### Google Colab Usage
 Training can be started by importing `Transformers_Unsupervised_Anomaly_Segmentation.ipynb` in [Google Colab](http://colab.research.google.com).
