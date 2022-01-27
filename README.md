@@ -11,7 +11,7 @@ If you use any of our code, please cite:
 }
 ```
 
-* [Transformers_Unsupervised_Anomaly_Segmentation](#Transformers for Unsupervised Anomaly Segmentation in Brain MR Images)
+* [Transformers_Unsupervised_Anomaly_Segmentation](#Transformers_Unsupervised_Anomaly_Segmentation)
   * [Requirements](#requirements)
   * [Folder Structure](#folder-structure)
   * [Usage](#usage)
