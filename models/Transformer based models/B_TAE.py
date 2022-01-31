@@ -33,7 +33,7 @@ from scripts.evalresults import *
 from scripts.utils import *
 
 
-#-- Patch Partition Layer
+#-- Implement patch creation as a layer
 
 class Patches(layers.Layer):
 
@@ -62,7 +62,7 @@ class Patches(layers.Layer):
         return patches
 
 
-#-- Patch Encoding Layer
+#-- Implement the patch encoding layer
 
 class PatchEncoder(layers.Layer):
 
@@ -90,7 +90,7 @@ class PatchEncoder(layers.Layer):
         return encoded
 
 
-#-- Image Reconstruction Layer
+#-- Implement image reconstruction from patches as a layer
 
 class Images(layers.Layer):
   
@@ -111,25 +111,25 @@ class Images(layers.Layer):
 
     def call(self, patches):
         batch_size = tf.shape(patches)[0]
-        reconstructed = tf.reshape(patches, [batch_size, self.image_size, self.image_size, self.num_channels])
+        reconstructed = tf.reshape(patches, [batch_size, self.image_size, self.image_size, num_channels])
         rec_new = tf.nn.space_to_depth(reconstructed, self.patch_size) 
         image = tf.reshape(rec_new, [batch_size, self.image_size, self.image_size, self.num_channels])   
         return image
 
 
-#-- Truncated Dense Layer   
+#-- Dense Layer    
 
 class TruncatedDense(layers.Dense):
     def __init__(self, units, use_bias=True, initializer = tf.keras.initializers.TruncatedNormal(mean=0., stddev=.02)):
-        super(TruncatedDense, self).__init__(units, use_bias=use_bias, kernel_initializer=initializer)
+        super().__init__(units, use_bias=use_bias, kernel_initializer=initializer)
 
-
-#-- Mlp Head Layer
+        
+#-- Mlp Head
 
 class Mlp(layers.Layer):
 
     def __init__(self, in_features, hidden_features=None, out_features=None, act_layer=layers.Activation(tf.nn.gelu), drop=0.):
-        super(Mlp, self).__init__()
+        super().__init__()
         out_features = out_features or in_features
         hidden_features = hidden_features or in_features
         self.fc1 = TruncatedDense(hidden_features)
@@ -156,130 +156,78 @@ class Mlp(layers.Layer):
         return x
 
 
-#-- Transformer Encoder Layer
+#-- Model implementation : Basic Vision Transformer Autoencoder 
 
-class TransformerEnc(layers.Layer):
-  
-  def __init__(self, transformer_layers, num_heads, embed_shape, rate):
-    super(TransformerEnc, self).__init__()
-    num_heads = num_heads
-    embed_shape = embed_shape
-    rate = rate
-    self.transformer_layers = transformer_layers
-    self.mlp = Mlp(
-        in_features=embed_shape[1],
-        hidden_features=4*embed_shape[1],
-        drop=rate)
-    self.norm = layers.LayerNormalization(epsilon=1e-6)
-    self.drop = layers.Dropout(rate)
-    self.mha = layers.MultiHeadAttention(
-        num_heads = num_heads,
-        key_dim = embed_shape[1],
-        dropout = rate)
-  
-  def get_config(self):
-    config = super().get_config().copy()
-    config.update({
-        'transformer_layers': self.transformer_layers,
-        'mlp': self.mlp,
-        'norm': self.norm,
-        'drop': self.drop,
-        'mha': self.mha
-        })
-    return config
-  
-  def call(self, encoded_patches):
+def transformer_autoencoder(encoded_patches):
+
     for _ in range(transformer_layers):
-      query = key = encoded_patches
-      attn_encoded_patches = self.mha(query=query, value=encoded_patches, key=key)
-      attn_encoded_patches = self.drop(attn_encoded_patches)
-      encoded_patches += attn_encoded_patches
-      encoded_patches = self.norm(encoded_patches)
-      ffn_out = self.mlp(encoded_patches)
-      encoded_patches += ffn_out
-      encoded_patches = self.norm(encoded_patches)
-    return encoded_patches
+        query = key = encoded_patches
+        attn_encoded_patches = layers.MultiHeadAttention(
+            num_heads = num_heads,
+            key_dim = embed_shape[1],
+            dropout = rate)(query=query, value=encoded_patches, key=key)   
+        attn_encoded_patches = layers.Dropout(rate)(attn_encoded_patches) 
+        encoded_patches += attn_encoded_patches  
+        encoded_patches = layers.LayerNormalization(epsilon=1e-6)(encoded_patches)
+        ffn_out = Mlp(
+            in_features=embed_shape[1],
+            hidden_features=4*embed_shape[1],
+            drop=rate)(encoded_patches)
+        encoded_patches += ffn_out   
+        encoded_patches = layers.LayerNormalization(epsilon=1e-6)(encoded_patches)
 
-
-#-- Transformer Decoder Layer
-
-class TransformerDec(layers.Layer):
-  
-  def __init__(self, transformer_layers, num_heads, embed_shape, rate):
-    super(TransformerDec, self).__init__()
-    num_heads = num_heads
-    embed_shape = embed_shape
-    rate = rate
-    self.transformer_layers = transformer_layers
-    self.positions = tf.range(start=0, limit = embed_shape[0], delta=1)
-    self.embed = layers.Embedding(
+    positions = tf.range(start=0, limit = embed_shape[0], delta=1)
+    pos_embed = layers.Embedding(
         input_dim = embed_shape[0],
-        output_dim = embed_shape[1])
-    self.mlp = Mlp(
-        in_features=embed_shape[1],
-        hidden_features=4*embed_shape[1],
-        drop=rate)
-    self.norm = layers.LayerNormalization(epsilon=1e-6)
-    self.drop = layers.Dropout(rate)
-    self.mha = layers.MultiHeadAttention(
-        num_heads = num_heads,
-        key_dim = embed_shape[1],
-        dropout=rate)
-  
-  def get_config(self):
-    config = super().get_config().copy()
-    config.update({
-        'transformer_layers': self.transformer_layers,
-        'positions': self.positions,
-        'mlp': self.mlp,
-        'norm': self.norm,
-        'drop': self.drop,
-        'mha': self.mha
-        })
-    return config
-  
-  def call(self, encoded_patches):
-    pos_embed = self.embed(self.positions)
+        output_dim = embed_shape[1])(positions)
     target = encoded_patches
-    for _ in range(self.transformer_layers):
-      query_tgt = key_tgt = target + pos_embed
-      attn_target1 = self.mha(query=query_tgt, value=target, key=key_tgt)
-      attn_target1 = self.drop(attn_target1)
-      target += attn_target1
-      target = self.norm(target)
-      query_tgt = target + pos_embed
-      attn_target2 = self.mha(query=query_tgt, value=encoded_patches + pos_embed, key=encoded_patches)
-      attn_target2 = self.drop(attn_target2)
-      target += attn_target2
-      target = self.norm(target)
-      ffn_out = self.mlp(encoded_patches)
-      target += ffn_out
-      target = self.norm(target)
+
+    for _ in range(transformer_layers):
+        query_tgt = key_tgt = target + pos_embed    
+        attn_target1 = layers.MultiHeadAttention(
+            num_heads = num_heads,
+            key_dim = embed_shape[1],
+            dropout=rate)(query=query_tgt, value=target, key=key_tgt)   
+        attn_target1 = layers.Dropout(rate)(attn_target1)
+        target += attn_target1
+        target = layers.LayerNormalization(epsilon=1e-6)(target)
+        query_tgt = target + pos_embed
+        attn_target2 = layers.MultiHeadAttention(
+            num_heads = num_heads,
+            key_dim = embed_shape[1],
+            dropout=rate)(query=query_tgt, value=encoded_patches + pos_embed, key=encoded_patches)
+        attn_target2 = layers.Dropout(rate)(attn_target2)
+        target += attn_target2
+        target = layers.LayerNormalization(epsilon=1e-6)(target)
+        ffn_out = Mlp(
+            in_features=embed_shape[1],
+            hidden_features=4*embed_shape[1],
+            drop=rate)(encoded_patches)
+        target +=ffn_out
+        target = layers.LayerNormalization(epsilon=1e-6)(target)
     return target
 
 
+#-- Build the B_TAE model
 
-#-- Build the TAE Model
+def TAE():
 
-def TransformerAE():
-  
-  input_img = tf.keras.Input(shape=(image_size, image_size, num_channels))
-  
-  patches = Patches(patch_size)(input_img)
-  enc_patches = PatchEncoder(embed_shape)(patches)
-  encoded_patches = TransformerEnc(transformer_layers, num_heads, embed_shape, rate)(enc_patches)
-  decoded_patches = TransformerDec(transformer_layers, num_heads, embed_shape, rate)(encoded_patches)
-  decoded_patches = layers.Dense(units=patch_size*patch_size*num_channels)(decoded_patches)  
-  reconstructed = Images(image_size, patch_size, num_channels)(decoded_patches)
-  
-  model = tf.keras.Model(input_img, reconstructed)
-  
-  return model
+    input_img = tf.keras.Input(shape=(image_size, image_size, num_channels))
+    
+    patches = Patches(patch_size)(input_img)
+    enc_patches = PatchEncoder(embed_shape)(patches)
+    decoded_patches = transformer_autoencoder(enc_patches)
+    decoded_patches = layers.Dense(units=patch_size*patch_size*num_channels)(decoded_patches)  
+    reconstructed = Images(image_size, patch_size, num_channels)(decoded_patches)
+
+    model = tf.keras.Model(input_img, reconstructed)
+
+    return model
  
  
 #-- Configure the hyperparameters
 
-model_name = 'Vanilla Transformer Autoencoder'
+model_name = 'BASIC Transformer'
 numEpochs = 50
 learning_rate = 0.00001
 rate = 0.1  
