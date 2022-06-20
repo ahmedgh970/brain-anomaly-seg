@@ -1,6 +1,6 @@
 # Transformers for Unsupervised Anomaly Segmentation in Brain MR Images
 
-This repository contains the code for our paper on [Transformers for Unsupervised Anomaly Segmentation in Brain MR Images] (Under Review). 
+This repository contains the code for our paper on [Transformers for Unsupervised Anomaly Segmentation in Brain MR Images](Under Review). 
 
 * [Transformers_Unsupervised_Anomaly_Segmentation](#Transformers_Unsupervised_Anomaly_Segmentation)
   * [Requirements](#requirements)
