@@ -95,8 +95,17 @@ def add_colorbar(img):
 
     return img
 
+'''
 def squash_intensities(img):
     k = 100
     offset = 0.5
     return 2.0 * ((1.0 / (1.0 + np.exp(-k * img))) - offset)
+'''  
+
+def squash_intensities(img):
+    k = 100
+    offset = 0.5
+    my_thresh = 0.5
+    squash_img = 2.0 * ((1.0 / (1.0 + np.exp(-k * img))) - offset)
+    return cv2.threshold(squash_img, my_thresh, 1, cv2.THRESH_BINARY) #-- to binarize the residual
     
