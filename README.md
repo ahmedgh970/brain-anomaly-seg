@@ -56,10 +56,7 @@ pip3 install -r requirements.txt
       └── ...    
   ```
 
-
 ## Usage
-All the preprocessed datasets that we utilized are available on this drive link: https://drive.google.com/file/d/1C7gKuSz1an9g5ZezNS3ziuRogg-EAQrW/view?usp=sharing
-
 ### CLI Usage
 Every model can be trained and tested individually using the scripts which are provided in the `models/*` folders.
 
