@@ -16,7 +16,7 @@ This repository contains the code for our paper on [Transformers for Unsupervise
 
 
 ## Tags
-<code>MIDL 2022 Conference</code>, <code>Transformers</code>, <code>Autoencoders</code>, <code>TensorFlow</code>, <code>Keras</code>, <code>Anomaly Segmentation</code>, <code>Unsupervised</code>, <code>Brain MR Images</code>
+<code>MICCAI BrainLes22 Conference</code>, <code>Transformers</code>, <code>Autoencoders</code>, <code>TensorFlow</code>, <code>Keras</code>, <code>Anomaly Segmentation</code>, <code>Unsupervised</code>, <code>Brain MR Images</code>
 
 
 ## Requirements
