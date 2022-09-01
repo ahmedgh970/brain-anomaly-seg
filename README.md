@@ -1,6 +1,15 @@
-# Transformers for Unsupervised Anomaly Segmentation in Brain MR Images
+# Transformer-based Models for Unsupervised Anomaly Segmentation in Brain MR Images
 
-This repository contains the code for our paper on [Transformers for Unsupervised Anomaly Segmentation in Brain MR Images](Under Review). 
+You can find more details in our preprint paper: [Transformer-based Models for Unsupervised Anomaly Segmentation in Brain MR Images](https://arxiv.org/pdf/2207.02059.pdf). 
+```
+@article{ghorbel2022transformer,
+  title={Transformer based Models for Unsupervised Anomaly Segmentation in Brain MR Images},
+  author={Ghorbel, Ahmed and Aldahdooh, Ahmed and Albarqouni, Shadi and Hamidouche, Wassim},
+  journal={arXiv preprint arXiv:2207.02059},
+  year={2022}
+}
+```
+
 
 * [Transformers_Unsupervised_Anomaly_Segmentation](#Transformers_Unsupervised_Anomaly_Segmentation)
   * [Requirements](#requirements)
@@ -16,7 +25,7 @@ This repository contains the code for our paper on [Transformers for Unsupervise
 
 
 ## Tags
-<code>MICCAI BrainLes22 Conference</code>, <code>Transformers</code>, <code>Autoencoders</code>, <code>TensorFlow</code>, <code>Keras</code>, <code>Anomaly Segmentation</code>, <code>Unsupervised</code>, <code>Brain MR Images</code>
+<code>MICCAI BrainLes 2022 Workshop</code>, <code>Transformer</code>, <code>Autoencoder</code>, <code>TensorFlow</code>, <code>Keras</code>, <code>Anomaly Segmentation</code>, <code>Unsupervised</code>, <code>Neuroimaging</code>, <code>Deeplearning</code>
 
 
 ## Requirements
