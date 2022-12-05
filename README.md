@@ -1,6 +1,8 @@
 # Transformer-based Models for Unsupervised Anomaly Segmentation in Brain MR Images
 
-You can find more details in our preprint paper: [Transformer-based Models for Unsupervised Anomaly Segmentation in Brain MR Images](https://arxiv.org/pdf/2207.02059.pdf). 
+Official implementation of [Transformer-based Models for Unsupervised Anomaly Segmentation in Brain MR Images](https://arxiv.org/pdf/2207.02059.pdf).
+[Paper accepted in the International MICCAI Brainlesion 2022 Workshop](https://link.springer.com/conference/iwb)
+
 ```
 @article{ghorbel2022transformer,
   title={Transformer based Models for Unsupervised Anomaly Segmentation in Brain MR Images},
