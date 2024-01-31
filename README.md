@@ -1,15 +1,30 @@
 # Transformer-based Models for Unsupervised Anomaly Segmentation in Brain MR Images
 
-Official implementation of [Transformer-based Models for Unsupervised Anomaly Segmentation in Brain MR Images](https://arxiv.org/pdf/2207.02059.pdf).
+Official implementation of [Transformer-based Models for Unsupervised Anomaly Segmentation in Brain MR Images]([https://arxiv.org/pdf/2207.02059.pdf](https://link.springer.com/chapter/10.1007/978-3-031-33842-7_3#citeas)).
 
-[Paper accepted in the International MICCAI Brainlesion 2022 Workshop](https://link.springer.com/conference/iwb)
+[Paper accepted in the International MICCAI Brainlesion 2022 Workshop]([https://link.springer.com/conference/iwb](https://link.springer.com/book/10.1007/978-3-031-33842-7))
 
 ```
-@article{ghorbel2022transformer,
-  title={Transformer based Models for Unsupervised Anomaly Segmentation in Brain MR Images},
-  author={Ghorbel, Ahmed and Aldahdooh, Ahmed and Albarqouni, Shadi and Hamidouche, Wassim},
-  journal={arXiv preprint arXiv:2207.02059},
-  year={2022}
+@InProceedings{10.1007/978-3-031-33842-7_3,
+author="Ghorbel, Ahmed
+and Aldahdooh, Ahmed
+and Albarqouni, Shadi
+and Hamidouche, Wassim",
+editor="Bakas, Spyridon
+and Crimi, Alessandro
+and Baid, Ujjwal
+and Malec, Sylwia
+and Pytlarz, Monika
+and Baheti, Bhakti
+and Zenk, Maximilian
+and Dorent, Reuben",
+title="Transformer Based Models for Unsupervised Anomaly Segmentation in Brain MR Images",
+booktitle="Brainlesion:  Glioma, Multiple Sclerosis, Stroke  and Traumatic Brain Injuries",
+year="2023",
+publisher="Springer Nature Switzerland",
+address="Cham",
+pages="25--44",
+isbn="978-3-031-33842-7"
 }
 ```
 
