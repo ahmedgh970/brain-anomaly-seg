@@ -6,25 +6,25 @@ Official implementation of [Transformer-based Models for Unsupervised Anomaly Se
 
 ```
 @InProceedings{10.1007/978-3-031-33842-7_3,
-author="Ghorbel, Ahmed
-and Aldahdooh, Ahmed
-and Albarqouni, Shadi
-and Hamidouche, Wassim",
-editor="Bakas, Spyridon
-and Crimi, Alessandro
-and Baid, Ujjwal
-and Malec, Sylwia
-and Pytlarz, Monika
-and Baheti, Bhakti
-and Zenk, Maximilian
-and Dorent, Reuben",
-title="Transformer Based Models for Unsupervised Anomaly Segmentation in Brain MR Images",
-booktitle="Brainlesion:  Glioma, Multiple Sclerosis, Stroke  and Traumatic Brain Injuries",
-year="2023",
-publisher="Springer Nature Switzerland",
-address="Cham",
-pages="25--44",
-isbn="978-3-031-33842-7"
+    author="Ghorbel, Ahmed
+    and Aldahdooh, Ahmed
+    and Albarqouni, Shadi
+    and Hamidouche, Wassim",
+    editor="Bakas, Spyridon
+    and Crimi, Alessandro
+    and Baid, Ujjwal
+    and Malec, Sylwia
+    and Pytlarz, Monika
+    and Baheti, Bhakti
+    and Zenk, Maximilian
+    and Dorent, Reuben",
+    title="Transformer Based Models for Unsupervised Anomaly Segmentation in Brain MR Images",
+    booktitle="Brainlesion:  Glioma, Multiple Sclerosis, Stroke  and Traumatic Brain Injuries",
+    year="2023",
+    publisher="Springer Nature Switzerland",
+    address="Cham",
+    pages="25--44",
+    isbn="978-3-031-33842-7"
 }
 ```
 
