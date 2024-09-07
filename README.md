@@ -49,7 +49,7 @@ Official implementation of [Transformer-based Models for Unsupervised Anomaly Se
 ## Requirements
 * <code>Python >= 3.6</code>
 
-All packages used in this repository are listed in [requirements.txt](https://github.com/ahmedgh970/Transformers_Unsupervised_Anomaly_Segmentation/requirements.txt).
+All packages used in this repository are listed in [requirements.txt](https://github.com/ahmedgh970/brain-anomaly-seg/requirements.txt).
 To install those, run:
 ```
 pip3 install -r requirements.txt
@@ -58,13 +58,7 @@ pip3 install -r requirements.txt
 
 ## Folder Structure
   ```
-  Transformers_Unsupervised_Anomaly_Segmentation/
-  │
-  ├── Transformers_Unsupervised_Anomaly_Segmentation.ipynb - Jupyter notebook to work on Google Colab
-  │
-  ├── data/
-  │   └── data.txt  - datasets descriptions and download link
-  │
+  brain-anomaly-seg/
   ├── models/ - Models defining, training and evaluating
   │   ├── Autoencoders/
   │       ├── DCAE.py
@@ -75,9 +69,6 @@ pip3 install -r requirements.txt
   │   └── Transformer based models/
   │       ├── B_TAE.py
   │       └── ...
-  │
-  ├── saved/  - saving folder
-  │
   └── scripts/ - small utility scripts
       ├── utils.py
       └── ...    
@@ -86,12 +77,6 @@ pip3 install -r requirements.txt
 ## Usage
 ### CLI Usage
 Every model can be trained and tested individually using the scripts which are provided in the `models/*` folders.
-
-
-### Google Colab Usage
-Training can be started by importing `Transformers_Unsupervised_Anomaly_Segmentation.ipynb` in [Google Colab](http://colab.research.google.com).
-This github repository is linked and can directly loaded into the notebook. However, the datasets have to be stored so that Google Colab can access them. 
-Either uploading by a zip-file or uploading it to Google Drive and mounting the drive.
 
 
 ## Disclaimer
